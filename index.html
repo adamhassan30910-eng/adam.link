@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fdfcf9">
+<title>Adam Hassan | A Hardware</title>
+
+
+<style>
+:root{--red:#b8872d;--gold:#b8872d;--gold-light:#f2d58a;--ink:#242424;--muted:#858585;--line:#e8e8e8;--soft:#f4f4f4;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fdfcf9;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background-color .72s cubic-bezier(.22,.8,.25,1),color .62s ease}
+body.theme-changing:after{content:"";position:fixed;z-index:999;inset:0;pointer-events:none;background:var(--theme-flash,#171717);clip-path:circle(0 at var(--theme-x,50%) var(--theme-y,5%));animation:themeReveal .78s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes themeReveal{0%{clip-path:circle(0 at var(--theme-x,50%) var(--theme-y,5%));opacity:.22}70%{opacity:.13}100%{clip-path:circle(150vmax at var(--theme-x,50%) var(--theme-y,5%));opacity:0}}
+.page,.topline,.scroll-name,.tool-btn,.tab,.avatar,.social,.feature,.link-row,.business-card,.stat,.footer,.section-head,.play{transition-property:background-color,color,border-color,box-shadow,filter,transform,opacity}
+.page{transition-duration:.24s,.24s,.24s,.24s,.24s,.24s,.24s}
+.topline{transition-duration:.55s,.55s,.55s,.55s,.55s,.55s,.55s}
+.avatar{transition-duration:.65s,.65s,.65s,.65s,.65s,.65s,.65s}
+.social{transition-duration:.32s,.32s,.32s,.32s,.32s,.32s,.32s}
+.link-row{transition-duration:.42s,.42s,.42s,.42s,.42s,.42s,.42s}
+.business-card{transition-duration:.5s,.5s,.5s,.5s,.5s,.5s,.5s}
+.stat{transition-duration:.38s,.38s,.38s,.38s,.38s,.38s,.38s}
+button,a{font:inherit}
+a{color:inherit;text-decoration:none}
+.page{width:min(100% - 36px,760px);margin:auto;padding:28px 0 48px}
+.topline{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;min-height:62px;margin: -28px calc((100vw - min(100vw - 36px,760px))/ -2) 34px;padding:10px max(18px,calc((100vw - 760px)/2));background:rgba(255,255,255,0);border-bottom:1px solid transparent;transition:background .35s ease,border-color .35s ease,box-shadow .35s ease,backdrop-filter .35s ease}
+.scroll-name{font-size:16px;font-weight:750;letter-spacing:-.035em;color:var(--ink);opacity:0;transform:translateY(-5px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+.topline.scrolled{background:rgba(255,255,255,.78);border-bottom-color:rgba(220,220,220,.7);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);box-shadow:0 8px 28px rgba(0,0,0,.045)}
+.topline.scrolled .scroll-name{opacity:1;transform:translateY(0);pointer-events:auto}
+.tools{display:flex;align-items:center;gap:8px}
+.tool-btn{border:1px solid rgba(220,220,220,.85);background:rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:999px;min-width:40px;height:40px;padding:0 12px;cursor:pointer;color:#555;font-size:14px;transition:transform .25s ease,border-color .25s ease,background .25s ease}
+.tool-btn:active{transform:scale(.91) rotate(-4deg)}
+.tool-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.07)}
+.tab{transition:background-color .4s ease,color .35s ease,transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s ease}
+.tab:active{transform:scale(.94)}
+.link-row:hover{transform:translateX(5px);box-shadow:0 8px 22px rgba(0,0,0,.035)}
+body[dir="rtl"] .link-row:hover{transform:translateX(-5px)}
+.social{transition:transform .42s cubic-bezier(.2,1.5,.4,1),box-shadow .35s ease,background-color .3s ease}
+.feature:hover{transform:translateY(-5px) scale(1.008)}
+.play{transition:transform .4s cubic-bezier(.2,1.6,.4,1),background-color .3s ease}
+.play:hover{transform:scale(1.12) rotate(7deg)}
+.tool-btn:hover{border-color:#d8bd83;color:var(--red)}
+.lang-btn{font-weight:650}
+body.dark{--ink:#f0f0f0;--muted:#aaa;--line:#393939;--soft:#242424;--white:#171717;background:#171717;color:var(--ink)}
+body.dark .tool-btn,body.dark .tab{background:rgba(36,36,36,.78);color:#ddd;border-color:#3b3b3b}
+body.dark .topline.scrolled{background:rgba(23,23,23,.78);border-bottom-color:rgba(65,65,65,.75);box-shadow:0 8px 28px rgba(0,0,0,.2)}
+body.dark .scroll-name{color:#f0f0f0}
+body.dark .tab.active{background:var(--red);color:#fff;border-color:var(--red)}
+body.dark .avatar{background:linear-gradient(145deg,#292929,#1d1d1d);border-color:#393939}
+body.dark .avatar:after{border-color:#6e552b}
+body.dark .social{color:#bbb;border-color:#393939}
+body.dark .link-icon,body.dark .stat{background:#292929;color:#ddd}
+body.dark .link-row:hover{background:#211b1b}
+body.dark .business-card{border-color:#393939}
+body.dark .feature{background:linear-gradient(120deg,#090909 0%,#292929 55%,#702020 100%)}
+body.dark .footer b{color:#ddd}
+body.dark .brand-mark{border-color:#eee}
+body.dark .note,body.dark .business-card p{color:#aaa}
+body[dir="rtl"]{direction:rtl}
+body[dir="rtl"] .link-row{flex-direction:row}
+body[dir="rtl"] .link-row:hover{padding-left:7px;padding-right:13px}
+body[dir="rtl"] .section-head{flex-direction:row}
+body[dir="rtl"] .feature-content{text-align:right}
+body[dir="rtl"] .footer{direction:rtl}
+body[dir="rtl"] .brand{letter-spacing:0}
+body[dir="rtl"] .feature:before{right:auto;left:24px}
+body[dir="rtl"] .play{right:auto;left:20px}
+body[dir="rtl"] .link-copy{text-align:right}
+body[dir="rtl"] .socials{direction:ltr}
+body[dir="rtl"] .tabs{direction:rtl}
+@media(max-width:520px){.tool-btn{height:38px;min-width:38px;padding:0 10px}}
+.profile{text-align:center;padding:4px 0 24px}
+.avatar{width:116px;height:116px;border-radius:50%;margin:0 auto 19px;background:linear-gradient(145deg,#fff,#f0f0f0);border:1px solid #eee;display:grid;place-items:center;position:relative;overflow:hidden}
+.avatar:after{content:"";position:absolute;inset:7px;border:1px solid #e7b0b0;border-radius:50%}
+.avatar strong{font-size:33px;letter-spacing:-3px}
+.avatar strong span{color:var(--red)}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:36px;font-weight:500;letter-spacing:-1.2px;margin:0 0 7px}
+.role{font-size:15px;color:var(--muted);margin:0}
+.bio{font-size:13px;line-height:1.7;color:#777;max-width:420px;margin:12px auto 18px}
+.socials{display:flex;justify-content:center;gap:11px}
+.social{width:39px;height:39px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:#686868;transition:.2s}
+.social:hover{color:var(--red);border-color:#dfc58f;transform:translateY(-2px)}
+.social svg{width:19px;height:19px;fill:currentColor}
+.social-youtube svg{fill:#FF0033}
+.social-instagram svg{fill:initial}
+.social-tiktok{position:relative}
+.social-tiktok svg{position:absolute;width:19px;height:19px}
+.social-tiktok .tiktok-shadow{transform:translate(-1.2px,-.8px)}
+.social-facebook svg{fill:#0866FF}
+.social:hover{transform:translateY(-5px) scale(1.07);box-shadow:0 9px 20px rgba(0,0,0,.09)}
+.social-youtube:hover{background:#fff1f2}
+.social-instagram:hover{background:#fff1f7}
+.social-tiktok:hover{background:#efffff}
+.social-facebook:hover{background:#eff5ff}
+.socials{animation:socialEnter .75s .28s both}
+@keyframes socialEnter{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.language-transitioning .page{opacity:.25;filter:blur(5px);transform:translateY(5px) scale(.995)}
+.page{transition:opacity .24s ease,filter .24s ease,transform .24s ease}
+.reveal-on-scroll{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1),filter .75s ease}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0);filter:blur(0)}
+.tab{position:relative;overflow:hidden}
+.tab:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.2) 48%,transparent 75%);transform:translateX(-130%);transition:transform .65s ease}
+.tab:hover:after{transform:translateX(130%)}
+.feature:before{animation:featureFloat 8s ease-in-out infinite alternate}
+@keyframes featureFloat{from{transform:translate3d(0,0,0) rotate(-4deg)}to{transform:translate3d(-12px,10px,0) rotate(3deg)}}
+.avatar{animation:avatarFloat 5s ease-in-out infinite}
+@keyframes avatarFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}body.theme-changing:after{display:none}.ambient-orb{animation:none!important}}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:38px 0 30px}
+.tab{border:0;border-radius:999px;background:#f0f0f0;color:#777;padding:12px 19px;cursor:pointer;transition:.2s;font-size:14px}
+.tab.active{background:#252525;color:white}
+.tab:hover:not(.active){background:#e8e8e8;color:#333}
+.panel{display:none;animation:appear .25s ease}
+.panel.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:8px 0 15px}
+.section-head h2{font-family:Georgia,serif;font-size:25px;font-weight:500;margin:0}
+.eyebrow{font-size:10px;letter-spacing:.16em;color:var(--red);font-weight:800;text-transform:uppercase}
+.profile{animation:profileIn .85s cubic-bezier(.2,.75,.25,1) both}
+@keyframes profileIn{from{opacity:0;transform:translateY(18px);filter:blur(7px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.feature{height:230px;border-radius:18px;overflow:hidden;position:relative;background:linear-gradient(120deg,#171717 0%,#343434 55%,#7f2525 100%);color:white;margin-bottom:24px;display:flex;align-items:end;padding:22px}
+.feature:before{content:"AH";position:absolute;right:24px;top:2px;font-size:150px;line-height:1;font-weight:900;letter-spacing:-.12em;color:#ffffff0d}
+.feature:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:55px;top:-125px;border:1px solid #ffffff24;box-shadow:0 0 0 25px #ffffff08,0 0 0 55px #ffffff05}
+.feature-content{position:relative;z-index:1}
+.feature small{letter-spacing:.16em;font-size:10px;color:#ffb6b6}
+.feature h3{font-family:Georgia,serif;font-size:27px;font-weight:500;margin:7px 0}
+.feature p{margin:0;color:#ddd;font-size:13px}
+.play{position:absolute;right:20px;bottom:20px;width:43px;height:43px;border-radius:50%;background:#fff;color:#222;display:grid;place-items:center;font-size:16px}
+.link-list{border-top:1px solid var(--line)}
+.link-row{min-height:66px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:10px 7px;transition:.18s}
+.link-row:hover{padding-left:13px;background:#fffafa}
+.link-icon{width:34px;height:34px;border-radius:11px;background:#f5f5f5;display:grid;place-items:center;color:#555;font-size:15px;flex:none}
+.link-copy{flex:1}
+.link-copy b{font-size:15px;font-weight:550}
+.link-copy small{display:block;color:#999;font-size:11px;margin-top:3px}
+.arrow{color:#aaa;font-size:19px}
+.link-row:hover .arrow{color:var(--red)}
+.note{font-size:12px;color:#999;line-height:1.7;margin:14px 2px}
+.business-card{border:1px solid var(--line);border-radius:16px;padding:19px;margin:12px 0}
+.business-card h3{margin:0 0 7px;font-size:16px}
+.business-card p{margin:0;color:#888;font-size:13px;line-height:1.65}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--ink);color:white;padding:11px 16px;border-radius:999px;font-size:13px}
+.cta.red{background:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.stat{background:#f7f7f7;border-radius:13px;padding:15px 10px;text-align:center}
+.stat b{display:block;font-size:19px}
+.stat span{font-size:10px;color:#888}
+.footer{border-top:1px solid var(--line);margin-top:38px;padding-top:18px;display:flex;justify-content:space-between;gap:12px;color:#aaa;font-size:11px}
+.footer b{color:#555}
+@media(max-width:520px){.page{width:min(100% - 30px,760px);padding-top:21px}.topline{margin-top:-21px;margin-bottom:30px;min-height:58px;padding-left:15px;padding-right:15px}.avatar{width:108px;height:108px}h1{font-size:33px}.tabs{gap:7px;margin:31px 0 26px}.tab{padding:11px 15px;font-size:13px}.feature{height:205px;padding:18px}.feature h3{font-size:23px}.footer{flex-direction:column;align-items:center}}
+
+/* Ambient animated background: subtle, premium, and brand-tinted */
+body{position:relative;isolation:isolate;overflow-x:hidden}
+.ambient-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:paint}
+.ambient-orb{position:absolute;width:min(62vw,520px);aspect-ratio:1;border-radius:50%;filter:blur(78px);opacity:.17;will-change:transform}
+.ambient-orb.orb-red{top:8%;left:-18%;background:radial-gradient(circle,#ef4444 0%,rgba(239,68,68,.45) 34%,transparent 70%);animation:orbDriftA 22s ease-in-out infinite alternate}
+.ambient-orb.orb-rose{top:48%;right:-22%;width:min(70vw,620px);background:radial-gradient(circle,#fb7185 0%,rgba(251,113,133,.35) 35%,transparent 72%);animation:orbDriftB 27s ease-in-out infinite alternate}
+.ambient-orb.orb-gray{bottom:-32%;left:22%;width:min(68vw,580px);background:radial-gradient(circle,#cbd5e1 0%,rgba(203,213,225,.35) 38%,transparent 72%);opacity:.22;animation:orbDriftC 30s ease-in-out infinite alternate}
+.ambient-grain{position:absolute;inset:0;opacity:.12;background-image:radial-gradient(rgba(40,40,40,.24) .55px,transparent .7px);background-size:8px 8px;mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent)}
+@keyframes orbDriftA{0%{transform:translate3d(0,0,0) scale(.9)}50%{transform:translate3d(18vw,12vh,0) scale(1.12)}100%{transform:translate3d(8vw,28vh,0) scale(1)}}
+@keyframes orbDriftB{0%{transform:translate3d(0,0,0) scale(1)}55%{transform:translate3d(-18vw,-13vh,0) scale(.88)}100%{transform:translate3d(-8vw,10vh,0) scale(1.08)}}
+@keyframes orbDriftC{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(12vw,-18vh,0) scale(1.16)}}
+.page{position:relative;z-index:1}
+body.dark .ambient-orb{opacity:.12}
+body.dark .ambient-orb.orb-gray{opacity:.07}
+body.dark .ambient-grain{opacity:.07;filter:invert(1)}
+@media(max-width:600px){.ambient-orb{filter:blur(58px);opacity:.13}.ambient-grain{opacity:.07}}
+
+
+/* Desktop refinement */
+@media (min-width:900px){
+ .page{width:min(100% - 80px,1120px);padding:38px 0 64px}
+ .topline{margin:-38px calc((100vw - min(100vw - 80px,1120px))/ -2) 46px;padding:12px max(40px,calc((100vw - 1120px)/2));min-height:72px}
+ .profile{padding:18px 0 34px}
+ .avatar{width:132px;height:132px;margin-bottom:22px}
+ .avatar strong{font-size:38px}
+ h1{font-size:48px;letter-spacing:-1.8px}
+ .role{font-size:16px}
+ .bio{font-size:14px;max-width:540px;margin:14px auto 22px}
+ .socials{gap:13px}.social{width:43px;height:43px}
+ .tabs{gap:10px;margin:42px 0 38px}
+ .tab{padding:13px 25px;font-size:14px}
+ .panel{max-width:980px;margin:0 auto}
+ .feature{height:300px;border-radius:22px;padding:34px;margin-bottom:34px}
+ .feature:before{font-size:205px;right:40px;top:0}
+ .feature:after{width:310px;height:310px;right:95px;top:-170px}
+ .feature h3{font-size:36px}.feature p{font-size:15px}.feature small{font-size:11px}
+ .play{width:52px;height:52px;right:30px;bottom:30px}
+ .section-head{margin:12px 0 20px}.section-head h2{font-size:30px}
+ .eyebrow{font-size:11px}
+ .link-row{min-height:76px;padding:14px 12px;gap:17px}
+ .link-icon{width:42px;height:42px;border-radius:13px;font-size:17px}
+ .link-copy b{font-size:16px}.link-copy small{font-size:12px}
+ .business-card{padding:24px 26px;border-radius:18px;margin:16px 0}
+ .business-card h3{font-size:18px}.business-card p{font-size:14px;max-width:780px}
+ .cta{padding:12px 18px;font-size:14px}
+ .stats{gap:14px;margin:22px 0}.stat{padding:20px 14px}
+ .stat b{font-size:22px}.stat span{font-size:11px}
+ .footer{margin-top:54px;padding-top:22px;font-size:12px}
+ .business-subnav{gap:14px;margin:26px 0 28px}
+ .business-subtab{min-height:82px;padding:17px 20px}
+ .business-subtab b{font-size:15px}.business-subtab small{font-size:12px}
+}
+@media (min-width:1200px){.panel{max-width:1040px}.feature{height:330px}}
+@media (max-width:899px){.business-subnav{grid-template-columns:1fr}}
+.business-subnav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:22px 0 24px}
+.business-subtab{display:flex;align-items:center;gap:13px;width:100%;min-height:72px;padding:14px 16px;text-align:left;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.58);color:var(--ink);cursor:pointer;transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease}
+.business-subtab:hover{transform:translateY(-3px);border-color:#d8bd83;box-shadow:0 9px 22px rgba(0,0,0,.045)}
+.business-subtab.active{border-color:#d8bd83;background:#fff8f8}
+.business-subtab-icon{width:38px;height:38px;display:grid;place-items:center;flex:none;border-radius:12px;background:var(--soft);font-size:18px;color:var(--red)}
+.business-subtab span:nth-child(2){flex:1}
+.business-subtab b{display:block;font-size:14px;font-weight:650}
+.business-subtab small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.business-subtab-arrow{color:#aaa;font-size:18px}
+.business-detail{display:none;animation:appear .25s ease}
+.business-detail.active{display:block}
+.business-detail-head{margin-top:28px}
+body.dark .business-subtab{background:rgba(36,36,36,.65);border-color:#393939;color:var(--ink)}
+body.dark .business-subtab.active{background:#2a1d1d;border-color:#6e552b}
+body[dir="rtl"] .business-subtab{text-align:right;flex-direction:row}
+body[dir="rtl"] .business-subtab-arrow{transform:scaleX(-1)}
+
+
+
+/* Theme polish: consistent contrast in both themes */
+:root{
+  --page-bg:#fdfcf9;
+  --surface:#fffefa;
+  --surface-soft:#f5f3ef;
+  --ink:#242424;
+  --muted:#77736e;
+  --line:#e9e6e0;
+  --soft:#f5f3ef;
+  --white:#fffefa;
+}
+body{background:var(--page-bg)}
+.topline.scrolled{background:rgba(253,252,249,.86)}
+.tool-btn{background:rgba(255,254,250,.86)}
+.tab{background:var(--surface-soft);color:#625f5a}
+.tab:hover:not(.active){background:#ebe8e1;color:#292724}
+.link-row:hover{background:#f7f3ef}
+.link-icon{background:var(--surface-soft);color:#514d47}
+.business-card{background:rgba(255,254,250,.72)}
+.business-subtab{background:rgba(255,254,250,.82)}
+.business-subtab.active{background:#fff7f5}
+.stat{background:var(--surface-soft)}
+.bio{color:#716d67}
+.note{color:#77736e}
+
+/* Dark mode surfaces and readable text */
+body.dark{
+  --page-bg:#171717;
+  --surface:#222222;
+  --surface-soft:#292929;
+  --ink:#f2f0ed;
+  --muted:#b9b5af;
+  --line:#41403e;
+  --soft:#292929;
+  --white:#222222;
+  background:var(--page-bg);
+  color:var(--ink);
+}
+body.dark .topline.scrolled{
+  background:rgba(23,23,23,.9);
+  border-bottom-color:#41403e;
+}
+body.dark .tool-btn,
+body.dark .tab{
+  background:#262626;
+  color:#e8e5e1;
+  border-color:#484643;
+}
+body.dark .tool-btn:hover,
+body.dark .tab:hover:not(.active){
+  background:#33302e;
+  color:#fff;
+}
+body.dark .tab.active{background:var(--red);color:#fff;border-color:var(--red)}
+body.dark .bio,
+body.dark .note,
+body.dark .link-copy small,
+body.dark .business-card p,
+body.dark .business-subtab small,
+body.dark .stat span{
+  color:#bdb9b3;
+}
+body.dark .social{
+  color:#e1ded9;
+  background:#242424;
+  border-color:#484643;
+}
+body.dark .link-row{color:#f0eeeb;border-bottom-color:#41403e}
+body.dark .link-row:hover{background:#292323}
+body.dark .link-icon{background:#30302f;color:#e8e5e1}
+body.dark .business-card{
+  background:#202020;
+  border-color:#454340;
+}
+body.dark .business-card h3,
+body.dark .link-copy b,
+body.dark .section-head h2{color:#f3f1ed}
+body.dark .business-subtab{
+  background:#222;
+  border-color:#454340;
+  color:#f0eeeb;
+}
+body.dark .business-subtab.active{
+  background:#302020;
+  border-color:#8d6a2b;
+}
+body.dark .business-subtab-icon{background:#30302f;color:#e2c27a}
+body.dark .stat{background:#292929}
+body.dark .footer{color:#aaa59e;border-top-color:#41403e}
+body.dark .footer b{color:#e6e2dc}
+body.dark .arrow,
+body.dark .business-subtab-arrow{color:#b9b4ad}
+body.dark .social-youtube:hover{background:#3b3020}
+body.dark .social-instagram:hover{background:#332b20}
+body.dark .social-tiktok:hover{background:#2d302b}
+body.dark .social-facebook:hover{background:#2b2b25}
+body.dark .avatar{
+  background:linear-gradient(145deg,#292929,#202020);
+  border-color:#454340;
+  color:#f2f0ed;
+}
+body.dark .avatar:after{border-color:#8d6a2b}
+body.dark .brand-mark{border-color:#eee}
+body.dark .cta{background:#eeeae4;color:#242424}
+body.dark .cta.red{background:var(--red);color:#fff}
+body.dark :focus-visible{outline:2px solid #e2c27a;outline-offset:3px}
+:focus-visible{outline:2px solid #b8872d;outline-offset:3px}
+
+
+.link-icon.brand-icon{background:transparent!important}
+.link-icon.brand-icon svg{width:25px;height:25px;display:block}
+.link-icon.youtube-brand svg{width:27px;height:27px}
+.link-icon.tiktok-brand svg{width:24px;height:24px}
+.link-icon.instagram-brand svg{width:25px;height:25px}
+.link-icon.facebook-brand svg{width:25px;height:25px}
+.link-icon.whatsapp-brand svg{width:25px;height:25px}
+
+.feature-video{isolation:isolate;background:#111;align-items:end}
+.feature-video:before,.feature-video:after{pointer-events:none;z-index:1}
+.feature-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:0}
+.feature-video:after{background:linear-gradient(0deg,#000b 0%,#0003 48%,transparent 100%);width:auto;height:auto;border:0;border-radius:0;box-shadow:none;inset:0;right:0;top:0}
+.feature-video .feature-content{z-index:2;pointer-events:none;text-shadow:0 1px 5px #000}
+.business-email-address{font-weight:700;overflow-wrap:anywhere;color:var(--text)}
+
+
+.feature-video-link{display:block;position:relative;min-height:220px;overflow:hidden;border-radius:18px;color:#fff;text-decoration:none;background:#111}
+.feature-video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.88}
+.feature-video-link:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.88),rgba(0,0,0,.05) 78%);pointer-events:none}
+.feature-play{position:absolute;z-index:2;left:50%;top:43%;transform:translate(-50%,-50%);width:62px;height:44px;border-radius:13px;background:#f00;color:#fff;display:grid;place-items:center;font-size:23px;padding-left:4px;box-shadow:0 5px 24px #0007}
+.feature-video-link .feature-content{position:absolute;z-index:3;left:20px;right:20px;bottom:18px;display:flex;flex-direction:column;gap:6px;text-shadow:0 1px 5px #000}
+.feature-video-link .feature-content strong{font-size:1.2rem}
+.feature-video-link .feature-content span{font-size:.85rem;opacity:.9}
+.business-email-address a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+
+
+.avatar.profile-avatar{width:132px;height:132px;padding:6px;overflow:visible;border:0;background:linear-gradient(135deg,#f6d98a 0%,#fff4ce 18%,#b77a24 36%,#f8e4a6 52%,#8b5b17 72%,#f6d98a 100%);box-shadow:0 0 0 3px rgba(193,145,54,.20),0 12px 34px rgba(0,0,0,.18),0 0 28px rgba(177,130,44,.22)}
+.avatar.profile-avatar:before{content:"";position:absolute;inset:-7px;border-radius:50%;padding:2px;background:linear-gradient(145deg,#fff4c8,#b98735 28%,#fff0b5 52%,#8c5a18 76%,#f5d98a);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.avatar.profile-avatar:after{inset:5px;border:1px solid rgba(255,255,255,.75);border-radius:50%;box-shadow:inset 0 0 0 2px rgba(20,20,20,.10)}
+.avatar.profile-avatar img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 30%;border-radius:50%;border:3px solid rgba(255,255,255,.88);box-shadow:inset 0 0 0 1px #fff}
+.business-intro{background:linear-gradient(135deg,rgba(193,145,54,.12),rgba(255,255,255,.02));border:1px solid rgba(185,139,55,.32)}
+.business-intro h3{margin-bottom:10px}
+.business-intro p{line-height:1.8}
+
+
+/* Unified warm-gold visual identity */
+:root{--red:#b8872d;--gold:#b8872d;--gold-light:#f2d58a;--ink:#29261f}
+body{background:#fdfcf9}
+.eyebrow,.business-subtab-icon,.link-row:hover .arrow,.tool-btn:hover{color:var(--gold)}
+.tab.active{background:var(--gold);border-color:var(--gold);color:#fff}
+.tool-btn:hover,.social:hover{border-color:#d9bd80}
+.cta.red{background:linear-gradient(135deg,#c99b42,#9d7020);color:#fff}
+.business-intro{background:linear-gradient(135deg,rgba(193,145,54,.16),rgba(255,255,255,.34));border-color:rgba(185,139,55,.42)}
+.business-intro h3{color:#8b641f}
+.business-intro p{color:#62563f}
+
+/* Dark mode: readable text, cards, controls and gold highlights */
+body.dark{--ink:#f3eee3;--muted:#c0b8a8;--line:#454039;--soft:#292720;--white:#1b1a17;background:#191815;color:#f3eee3}
+body.dark .topline.scrolled{background:rgba(25,24,21,.9);border-bottom-color:rgba(184,135,45,.28)}
+body.dark .tool-btn,body.dark .tab{background:#292720;color:#eee7d9;border-color:#494233}
+body.dark .tool-btn:hover,body.dark .tab:hover:not(.active){background:#383124;color:#fff;border-color:#b8872d}
+body.dark .tab.active{background:linear-gradient(135deg,#c99b42,#9d7020);color:#17140e;border-color:#d6ad5c}
+body.dark .bio,body.dark .note,body.dark .link-copy small,body.dark .business-card p,body.dark .business-subtab small,body.dark .stat span{color:#c5bdad}
+body.dark .business-card{background:#211f1a;border-color:#4b4333;color:#f3eee3}
+body.dark .business-card h3,body.dark .link-copy b,body.dark .section-head h2{color:#f5eddd}
+body.dark .business-intro{background:linear-gradient(135deg,rgba(184,135,45,.18),rgba(38,35,28,.96));border-color:rgba(205,164,83,.48)}
+body.dark .business-intro h3{color:#f0cc7a}
+body.dark .business-intro p{color:#ded4c1}
+body.dark .business-subtab{background:#24221d;border-color:#4b4333;color:#f3eee3}
+body.dark .business-subtab.active{background:#352c1d;border-color:#b8872d}
+body.dark .business-subtab-icon{background:#393123;color:#e7c274}
+body.dark .link-row{color:#f1ecdf;border-bottom-color:#494337}
+body.dark .link-row:hover{background:#29251d}
+body.dark .link-icon,body.dark .stat{background:#302c23;color:#eee6d5}
+body.dark .social{color:#e9dfca;background:#24221d;border-color:#494337}
+body.dark .footer{color:#bdb4a3;border-top-color:#494337}
+body.dark .footer b{color:#f0e7d5}
+body.dark .arrow,body.dark .business-subtab-arrow{color:#d0b16d}
+body.dark .cta{background:#e9e0ce;color:#28231a}
+body.dark .cta.red{background:linear-gradient(135deg,#c99b42,#9d7020);color:#17140e}
+body.dark .feature-video-link{background:#171613}
+body.dark .business-email-address a{color:#f0cc7a}
+body.dark .avatar.profile-avatar{background:linear-gradient(135deg,#f6d98a,#b77a24,#f8e4a6,#8b5b17);box-shadow:0 0 0 3px rgba(193,145,54,.28),0 12px 34px rgba(0,0,0,.5),0 0 30px rgba(177,130,44,.25)}
+body.dark :focus-visible{outline:2px solid #e2c27a;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Refined interaction system: calmer motion, clearer hierarchy, accessible menus */
+:root{--motion-smooth:cubic-bezier(.22,.8,.2,1);--discord-brand:#5865F2}
+.link-row{transition:transform .38s var(--motion-smooth),background-color .3s ease,border-color .3s ease,box-shadow .38s var(--motion-smooth),opacity .65s ease,filter .65s ease}
+.link-row:hover{transform:translateY(-2px) translateX(3px);box-shadow:0 12px 28px rgba(50,40,20,.07)}
+body[dir="rtl"] .link-row:hover{transform:translateY(-2px) translateX(-3px)}
+.feature{transition:transform .65s var(--motion-smooth),box-shadow .65s var(--motion-smooth),filter .65s ease}
+.feature:hover{box-shadow:0 22px 55px rgba(0,0,0,.14)}
+.business-card{transition:transform .45s var(--motion-smooth),border-color .35s ease,box-shadow .45s ease}
+.business-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.055)}
+.reveal-on-scroll{transition:opacity .8s var(--motion-smooth),transform .8s var(--motion-smooth),filter .8s ease}
+.reveal-on-scroll.is-visible{animation:revealSettle .8s var(--motion-smooth) both}
+@keyframes revealSettle{0%{opacity:0;transform:translateY(22px) scale(.99);filter:blur(6px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.tabs .tab{transition:background .35s ease,color .3s ease,transform .35s var(--motion-smooth),box-shadow .35s ease}
+.tabs .tab.active{box-shadow:0 6px 18px rgba(184,135,45,.18)}
+.panel.active{animation:panelEnter .48s var(--motion-smooth) both}
+@keyframes panelEnter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.discord-brand{color:var(--discord-brand)!important}
+.discord-brand svg{width:25px;height:25px;fill:var(--discord-brand)!important}
+.discord-row:hover .discord-brand{background:rgba(88,101,242,.10)!important}
+body.dark .discord-brand{color:#7983ff!important}
+body.dark .discord-brand svg{fill:#7983ff!important}
+body.dark .discord-row:hover .discord-brand{background:rgba(121,131,255,.14)!important}
+.youtube-dropdown{display:block;padding:0}
+.youtube-dropdown-trigger{width:100%;min-height:66px;display:flex;align-items:center;gap:14px;padding:10px 7px;border:0;background:transparent;color:inherit;text-align:inherit;cursor:pointer;font:inherit}
+.youtube-dropdown-trigger .link-copy{flex:1;text-align:start}
+.youtube-chevron{font-size:22px;color:#aaa;transition:transform .32s var(--motion-smooth),color .25s ease;padding:0 8px}
+.youtube-dropdown.is-open .youtube-chevron{transform:rotate(180deg);color:var(--gold)}
+.youtube-channel-menu{display:grid;gap:7px;padding:0 10px 12px 55px;animation:youtubeMenuIn .28s var(--motion-smooth) both}
+.youtube-channel-menu[hidden]{display:none}
+@keyframes youtubeMenuIn{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+.youtube-channel-option{display:flex;align-items:center;gap:11px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);transition:transform .25s ease,border-color .25s ease,background .25s ease}
+.youtube-channel-option:hover{transform:translateX(3px);border-color:rgba(184,135,45,.6);background:var(--surface-soft)}
+.youtube-channel-option>span:nth-child(2){flex:1;min-width:0}
+.youtube-channel-option b{display:block;font-size:13px;font-weight:650}
+.youtube-channel-option small{display:block;margin-top:3px;color:var(--muted);font-size:11px}
+.channel-play{width:27px;height:27px;display:grid;place-items:center;border-radius:9px;background:#fff0f0;color:#ff0033;font-size:11px}
+.channel-external{color:var(--muted);font-size:17px}
+body.dark .youtube-channel-option{background:#211f1a;border-color:#494337}
+body.dark .youtube-channel-option:hover{background:#302a1e;border-color:#b8872d}
+body.dark .youtube-channel-option .channel-play{background:#3b2929;color:#ff536d}
+body[dir="rtl"] .youtube-channel-menu{padding:0 55px 12px 10px}
+body[dir="rtl"] .youtube-channel-option:hover{transform:translateX(-3px)}
+.youtube-dropdown.is-open{background:rgba(184,135,45,.035)}
+body.dark .youtube-dropdown.is-open{background:rgba(184,135,45,.07)}
+@media(max-width:520px){.youtube-dropdown-trigger{min-height:62px}.youtube-channel-menu{padding-left:48px}body[dir="rtl"] .youtube-channel-menu{padding-right:48px}}
+@media(prefers-reduced-motion:reduce){.reveal-on-scroll.is-visible{animation:none}.panel.active{animation:none}}
+
+</style>
+</head>
+<body>
+<div class="ambient-bg" aria-hidden="true">
+  <span class="ambient-orb orb-red"></span>
+  <span class="ambient-orb orb-rose"></span>
+  <span class="ambient-orb orb-gray"></span>
+  <span class="ambient-grain"></span>
+</div>
+<main class="page">
+  <header class="topline" id="siteHeader">
+    <a class="scroll-name" href="#" aria-label="Back to top">Adam Hassan</a>
+    <div class="tools">
+      <button class="tool-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">☾</button>
+      <button class="tool-btn lang-btn" id="langToggle" aria-label="Switch language">عربي</button>
+    </div>
+  </header>
+
+  <section class="profile">
+    <div class="avatar profile-avatar" aria-label="Adam Hassan profile photo"><img src="assets/image-1.webp" fetchpriority="high" decoding="async" alt="Adam Hassan"></div>
+    <h1>Adam Hassan</h1>
+    <p class="role">Founder of A Hardware · Tech Content Creator</p>
+    <p class="bio">Technology, hardware and creative content. Welcome to my official corner of the internet.</p>
+    <div class="socials" aria-label="Social media shortcuts">
+      <a class="social social-youtube configured-link" data-site-link="youtube" href="#" target="_blank" rel="noopener noreferrer" title="YouTube" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg></a>
+      <a class="social social-instagram configured-link" data-site-link="instagram" href="#" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".48" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><path fill="url(#igGradient)" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2.2A2.8 2.8 0 0 0 4.2 7v10A2.8 2.8 0 0 0 7 19.8h10a2.8 2.8 0 0 0 2.8-2.8V7A2.8 2.8 0 0 0 17 4.2H7Z"/><circle cx="12" cy="12" r="5.1" fill="none" stroke="url(#igGradient)" stroke-width="2"/><circle cx="17.6" cy="6.6" r="1.25" fill="#D62976"/></svg></a>
+      <a class="social social-tiktok configured-link" data-site-link="tiktok" href="#" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25F4EE" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z" transform="translate(-1 0)"/></svg><svg class="tiktok-shadow" viewBox="0 0 24 24" aria-hidden="true"><path fill="#FE2C55" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z" transform="translate(1 0)"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#111" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z"/></svg></a>
+      <a class="social social-facebook configured-link" data-site-link="facebook" href="#" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.6 1.6-1.6h1.7V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.3v3.2h2.8V21h3.4Z"/></svg></a>
+    </div>
+  </section>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-panel="links">Links</button>
+    <button class="tab" data-panel="business">Business</button>
+    <button class="tab" data-panel="about">About</button>
+  </nav>
+
+  <section class="panel active" id="links">
+    <a class="feature feature-video feature-video-link" id="latestYouTubeVideo"
+       href="https://www.youtube.com/watch?v=olVJtozAIhI&t=14s"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Open the latest A Hardware video on YouTube">
+      <img class="feature-video-thumb" id="latestYouTubeThumbnail"
+           src="assets/image-2.webp"
+           alt="Latest A Hardware YouTube video thumbnail"
+           loading="lazy">
+      <span class="feature-play" aria-hidden="true">▶</span>
+      <span class="feature-content"><small>FEATURED VIDEO</small><strong id="latestYouTubeTitle">Discover the World of Tech</strong><span>Watch on YouTube ↗</span></span>
+    </a>
+    <div class="section-head"><h2>Find me online</h2><span class="eyebrow">MY PLATFORMS</span></div>
+    <div class="link-list">
+      <div class="youtube-dropdown link-row" id="youtubeDropdown">
+        <button class="youtube-dropdown-trigger" type="button" aria-expanded="false" aria-controls="youtubeChannelMenu">
+          <span class="link-icon brand-icon youtube-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF0033" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg></span>
+          <span class="link-copy"><b>YouTube</b><small>Choose a channel</small></span><span class="youtube-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="youtube-channel-menu" id="youtubeChannelMenu" hidden>
+          <a class="youtube-channel-option" href="https://www.youtube.com/@a.hardware" target="_blank" rel="noopener noreferrer"><span class="channel-play">▶</span><span><b>YouTube Main</b><small>A Hardware · Tech content</small></span><span class="channel-external">↗</span></a>
+          <a class="youtube-channel-option" href="https://www.youtube.com/@Adam_BEEK" target="_blank" rel="noopener noreferrer"><span class="channel-play">▶</span><span><b>YouTube Gaming</b><small>Adam BEEK · Gaming</small></span><span class="channel-external">↗</span></a>
+        </div>
+      </div>
+      <a class="link-row configured-link" data-site-link="tiktok" href="#" target="_blank" rel="noopener noreferrer"><span class="link-icon brand-icon tiktok-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25F4EE" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z" transform="translate(-1 0)"/><path fill="#FE2C55" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z" transform="translate(1 0)"/><path fill="#111" d="M14.2 2h3.1c.2 2.1 1.4 3.8 3.7 4.4v3.2a9 9 0 0 1-3.7-1.2v7.1c0 4-2.8 6.5-6.6 6.5A6.1 6.1 0 0 1 4.4 16c0-3.5 2.9-6.3 6.5-6.3.4 0 .8 0 1.2.1v3.4a4 4 0 0 0-1.2-.2c-1.6 0-2.9 1.2-2.9 2.8s1.2 2.8 2.8 2.8c1.8 0 3.4-1.1 3.4-3.8V2Z"/></svg></span><span class="link-copy"><b>TikTok – A Hardware</b><small>Short-form tech content</small></span><span class="arrow">↗</span></a>
+      <a class="link-row configured-link" data-site-link="instagram" href="#" target="_blank" rel="noopener noreferrer"><span class="link-icon brand-icon instagram-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="igRowGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".48" stop-color="#D62976"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#igRowGradient)" stroke-width="2.4"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="url(#igRowGradient)" stroke-width="2.2"/><circle cx="17.7" cy="6.5" r="1.3" fill="#D62976"/></svg></span><span class="link-copy"><b>Instagram</b><small>Behind the scenes & updates</small></span><span class="arrow">↗</span></a>
+      <a class="link-row configured-link" data-site-link="facebook" href="#" target="_blank" rel="noopener noreferrer"><span class="link-icon brand-icon facebook-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#0866FF" d="M13.5 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.6 1.6-1.6h1.7V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.3v3.2h2.8V21h3.4Z"/></svg></span><span class="link-copy"><b>Facebook</b><small>Follow A Hardware</small></span><span class="arrow">↗</span></a>
+      <a class="link-row configured-link discord-row" data-site-link="discord" href="https://discord.gg/SbwPEBjsv" target="_blank" rel="noopener noreferrer"><span class="link-icon brand-icon discord-brand"><svg viewBox="0 0 24 24" role="img" aria-label="Discord"><path fill="currentColor" d="M19.7 5.2a18.2 18.2 0 0 0-4.5-1.4l-.6 1.2a16.7 16.7 0 0 0-5.1 0l-.6-1.2a18.2 18.2 0 0 0-4.5 1.4C1.6 9.4.8 13.5 1.2 17.6a18.3 18.3 0 0 0 5.5 2.8l1.2-1.9-1.9-.9.5-.4a13 13 0 0 0 11 0l.5.4-1.9.9 1.2 1.9a18.3 18.3 0 0 0 5.5-2.8c.5-4.7-.8-8.8-3.1-12.4ZM8.7 14.8c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm6.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/></svg></span><span class="link-copy"><b>Discord Community</b><small>Join the community & chat with us</small></span><span class="arrow">↗</span></a>
+      <a class="link-row configured-link" data-site-link="whatsappChannel" href="#" target="_blank" rel="noopener noreferrer"><span class="link-icon brand-icon whatsapp-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#25D366" d="M20.5 3.5A11.8 11.8 0 0 0 2 17.7L.5 23.5l5.9-1.5A11.8 11.8 0 0 0 20.5 3.5ZM12 21a9 9 0 0 1-4.6-1.3l-.3-.2-3.5.9.9-3.4-.2-.4A9 9 0 1 1 12 21Zm5-6.7c-.3-.2-1.7-.9-2-.9s-.5-.2-.7.2-.8.9-1 1.1-.4.2-.7.1a7.4 7.4 0 0 1-2.2-1.4 8.3 8.3 0 0 1-1.5-1.9c-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6s0-.4 0-.6-.7-1.7-1-2.3c-.2-.5-.5-.4-.7-.4h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4a11 11 0 0 0 4.3 3.8c.6.3 1.1.5 1.5.6.6.2 1.2.2 1.7.1.5-.1 1.7-.7 1.9-1.4s.2-1.3.2-1.4-.2-.3-.5-.4Z"/></svg></span><span class="link-copy"><b>WhatsApp Channel</b><small>Updates, announcements & community posts</small></span><span class="arrow">↗</span></a>
+    </div>
+    <p class="note">Choose a platform to explore my content and stay connected.</p>
+  </section>
+
+  <section class="panel" id="business">
+    <div class="section-head"><h2>Let’s work together</h2><span class="eyebrow">BUSINESS</span></div>
+    <p class="note">A dedicated space for brands, agencies and collaboration opportunities.</p>
+    <div class="business-card business-intro"><h3>About My Work</h3><p>I’m Adam Hassan, a tech content creator and the founder of A Hardware. I create content around technology, PC hardware, gaming setups and product experiences, with a focus on making tech easier and more engaging for my audience. My work includes product reviews, hands-on showcases and creative brand features.</p></div>
+    <div class="business-card"><h3>Previous Partnerships</h3><p>MSI · RØDE · EPOMAKER · FIFINE and more.</p></div>
+    <div class="business-subnav" aria-label="Business resources">
+      <button class="business-subtab active" type="button" data-business-section="business-contact" onclick="showBusinessSection('business-contact')"><span class="business-subtab-icon">✉</span><span><b>Contact</b><small>Professional inquiries & partnerships</small></span><span class="business-subtab-arrow">↗</span></button>
+      <button class="business-subtab" type="button" data-business-section="business-media" onclick="showBusinessSection('business-media')"><span class="business-subtab-icon">▤</span><span><b>Media Kit</b><small>Creator profile, platforms & audience</small></span><span class="business-subtab-arrow">↗</span></button>
+    </div>
+    <div class="business-detail active" id="business-contact">
+      <div class="section-head business-detail-head"><h2>Get in touch</h2><span class="eyebrow">CONTACT</span></div>
+      <div class="business-card"><h3>Business Email</h3><p>For business inquiries and collaborations.</p><p class="business-email-address"><a href="mailto:adamforbusiness.a@gmail.com">adamforbusiness.a@gmail.com</a></p><a class="cta" href="https://mail.google.com/mail/?view=cm&fs=1&to=adamforbusiness.a%40gmail.com" target="_blank" rel="noopener noreferrer">Send an email ↗</a></div>
+    </div>
+    <div class="business-detail" id="business-media">
+      <div class="section-head business-detail-head"><h2>Media Kit</h2><span class="eyebrow">CREATOR PROFILE</span></div>
+      <div class="business-card"><h3>Work with A Hardware</h3><p>View the official A Hardware media kit, creator profile, platforms and collaboration details in the PDF.</p><a class="cta" href="https://drive.google.com/file/d/1DUJH-NwOScj5Z63cKT9FgVxpNKh7mIY3/view?pli=1" target="_blank" rel="noopener noreferrer">Media Kit PDF ↗</a></div>
+      <div class="stats"><div class="stat"><b>TikTok</b><span>Primary platform</span></div><div class="stat"><b>YouTube</b><span>Video content</span></div><div class="stat"><b>Instagram</b><span>Growing presence</span></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="about">
+    <div class="section-head"><h2>About Adam</h2><span class="eyebrow">THE CREATOR</span></div>
+    <div class="business-card"><h3>Technology with a creative angle.</h3><p>I’m Adam Hassan, founder of A Hardware. I create technology and hardware content, sharing reviews, recommendations and ideas with a community that loves tech.</p></div>
+    <div class="business-card"><h3>A Hardware</h3><p>A tech-focused content brand built around hardware, products, practical advice and creative storytelling.</p></div>
+  </section>
+
+  <footer class="footer"><span>© 2026 <b>Adam Hassan</b></span><span>Made for <b>Adam.Hardware</b> <span style="color:var(--red)">♥</span></span></footer>
+</main>
+<script>
+// The GitHub Action refreshes latest-video.json from the channel's public YouTube RSS feed.
+(async function loadLatestYouTubeVideo(){
+  const card = document.getElementById('latestYouTubeVideo');
+  const thumbnail = document.getElementById('latestYouTubeThumbnail');
+  const title = document.getElementById('latestYouTubeTitle');
+  if(!card || !thumbnail || !title) return;
+  try {
+    const response = await fetch('./latest-video.json?t=' + Date.now(), {cache:'no-store'});
+    if(!response.ok) throw new Error('Latest video feed is not available yet');
+    const video = await response.json();
+    if(!video.videoId || !video.title) throw new Error('Invalid latest video data');
+    card.href = `https://www.youtube.com/watch?v=${encodeURIComponent(video.videoId)}`;
+    card.setAttribute('aria-label', `Watch ${video.title} on YouTube`);
+    title.textContent = video.title;
+    thumbnail.src = video.thumbnail || `https://i.ytimg.com/vi/${encodeURIComponent(video.videoId)}/hqdefault.jpg`;
+    thumbnail.alt = `${video.title} — YouTube thumbnail`;
+  } catch(error) {
+    // Keep the existing featured-video content as a graceful fallback until the first sync succeeds.
+    console.info('Using the saved featured video until the channel feed is synced.', error);
+  }
+})();
+
+// EDIT YOUR REAL LINKS HERE.
+const SITE_LINKS = {
+  whatsappChannel: "https://whatsapp.com/channel/0029VbAeKBoJZg4FpeJH0o0X",
+  discord: "https://discord.gg/SbwPEBjsv",
+  youtube: "https://www.youtube.com/@a.hardware",
+  tiktok: "https://www.tiktok.com/@a.hardware.1",
+  instagram: "https://www.instagram.com/adam.hassan.x/",
+  facebook: "https://www.facebook.com/adam.hassan.x",
+  email: "adamforbusiness.a@gmail.com"
+};
+
+function getSiteLink(key){
+  const value = (SITE_LINKS[key] || "").trim();
+  if(!value) return "";
+  if(key === "whatsapp"){
+    const number = value.replace(/\D/g, "");
+    return number ? `https://wa.me/${number}` : "";
+  }
+  if(key === "email"){
+    return value.startsWith("mailto:") ? value : `mailto:${value}`;
+  }
+  return /^https?:\/\//i.test(value) ? value : `https://${value}`;
+}
+
+document.querySelectorAll("[data-site-link]").forEach(link=>{
+  const url = getSiteLink(link.dataset.siteLink);
+  if(url){
+    link.href = url;
+  } else {
+    link.addEventListener("click", event=>{
+      event.preventDefault();
+      alert(document.documentElement.lang === "ar"
+        ? "ضيف الرابط أو الرقم الحقيقي في قسم SITE_LINKS داخل الكود أولاً."
+        : "Add the real link or number in the SITE_LINKS section in the code first.");
+    });
+  }
+});
+
+const youtubeDropdown = document.getElementById("youtubeDropdown");
+if (youtubeDropdown) {
+  const trigger = youtubeDropdown.querySelector(".youtube-dropdown-trigger");
+  const menu = document.getElementById("youtubeChannelMenu");
+  const closeYouTubeMenu = () => {
+    menu.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+    youtubeDropdown.classList.remove("is-open");
+  };
+  trigger.addEventListener("click", () => {
+    const opening = menu.hidden;
+    menu.hidden = !opening;
+    trigger.setAttribute("aria-expanded", String(opening));
+    youtubeDropdown.classList.toggle("is-open", opening);
+  });
+  document.addEventListener("click", event => {
+    if (!youtubeDropdown.contains(event.target)) closeYouTubeMenu();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeYouTubeMenu();
+      trigger.focus();
+    }
+  });
+}
+
+const siteHeader = document.getElementById('siteHeader');
+function updateHeader(){siteHeader.classList.toggle('scrolled',window.scrollY>150);}
+window.addEventListener('scroll',updateHeader,{passive:true});
+updateHeader();
+function activate(id){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showBusinessSection(id){
+  const target=document.getElementById(id);
+  if(!target) return;
+  document.querySelectorAll('.business-detail').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.business-subtab').forEach(b=>b.classList.toggle('active',b.dataset.businessSection===id));
+  if(!document.getElementById('business').classList.contains('active')) activate('business');
+  window.setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>activate(b.dataset.panel)));
+function demoLink(e){e.preventDefault();alert(document.documentElement.lang==='ar'?'دي نسخة تجريبية. هنضيف الرابط الحقيقي قبل نشر الموقع.':'This is a preview. We’ll add your real link before publishing.');return false;}
+
+const translations = {
+  "Adam Hassan":"آدم حسن",
+  "About My Work":"نبذة عن عملي",
+  "I’m Adam Hassan, a tech content creator and the founder of A Hardware. I create content around technology, PC hardware, gaming setups and product experiences, with a focus on making tech easier and more engaging for my audience. My work includes product reviews, hands-on showcases and creative brand features.":"أنا آدم حسن، صانع محتوى تقني ومؤسس A Hardware. بقدّم محتوى عن التكنولوجيا ومكوّنات الكمبيوتر وتجميعات الألعاب وتجارب المنتجات، وبهدف إني أخلّي عالم التقنية أسهل وأكثر تشويقًا للجمهور. شغلي بيشمل مراجعات المنتجات وتجاربها العملية وعروضًا إبداعية بالتعاون مع العلامات التجارية.",
+  "FEATURED VIDEO":"فيديو مميز",
+  "Discover the World of Tech":"اكتشف عالم التكنولوجيا",
+  "Watch on YouTube ↗":"شاهد على يوتيوب ↗",
+
+  "Founder of A Hardware · Tech Content Creator":"مؤسس A Hardware · صانع محتوى تقني",
+  "Technology, hardware and creative content. Welcome to my official corner of the internet.":"محتوى عن التكنولوجيا والهاردوير وأفكار إبداعية. أهلاً بيك في موقعي الرسمي.",
+  "Links":"الروابط","Business":"الأعمال","Media Kit":"الملف الإعلامي","Contact":"تواصل","About":"من أنا",
+  "FEATURED CONTENT":"محتوى مميز","Discover the world of tech.":"اكتشف عالم التكنولوجيا.","Reviews · Builds · Tech stories":"مراجعات · تجميعات · حكايات تقنية",
+  "Find me online":"تابعني على الإنترنت","MY PLATFORMS":"منصاتي",
+  "YouTube – A Hardware":"يوتيوب – A Hardware","Videos, reviews & tech content":"فيديوهات ومراجعات ومحتوى تقني",
+  "YouTube":"يوتيوب","Choose a channel":"اختر قناة",
+  "YouTube Main":"قناة يوتيوب الأساسية","A Hardware · Tech content":"A Hardware · محتوى تقني",
+  "YouTube Gaming":"قناة يوتيوب للألعاب","Adam BEEK · Gaming":"Adam BEEK · جيمينج",
+  "Discord Community":"مجتمع Discord","Join the community & chat with us":"انضم للمجتمع واتكلم معانا",
+  "TikTok – A Hardware":"تيك توك – A Hardware","Short-form tech content":"محتوى تقني قصير",
+  "Instagram":"إنستجرام","Behind the scenes & updates":"كواليس وآخر التحديثات",
+  "Facebook":"فيسبوك","Follow A Hardware":"تابع A Hardware",
+  "Adam BEEK":"آدم بيك","Gaming channel":"قناة الألعاب","Kick":"كيك","Live streams":"بث مباشر",
+  "WhatsApp":"واتساب","WhatsApp Channel":"قناة واتساب","Chat with me directly":"كلمني مباشرة على واتساب",
+  "Choose a platform to explore my content and stay connected.":"الروابط دي تجريبية في النسخة الأولية. هنضيف حساباتك الحقيقية قبل النشر.",
+  "Let’s work together":"لنعمل معًا","BUSINESS":"الأعمال",
+  "A dedicated space for brands, agencies and collaboration opportunities.":"مساحة مخصصة للعلامات التجارية والوكالات وفرص التعاون.",
+  "Previous Partnerships":"تعاونات سابقة",
+  "MSI · RØDE · EPOMAKER · FIFINE and more.":"MSI · RØDE · EPOMAKER · FIFINE وغيرها.",
+  "Business Contact":"تواصل الأعمال","For professional inquiries and partnership proposals.":"للاستفسارات المهنية ومقترحات التعاون.",
+  "Contact Adam ↗":"تواصل مع آدم ↗","CREATOR PROFILE":"ملف صانع المحتوى",
+  "Work with A Hardware":"اعمل مع A Hardware",
+  "View the official A Hardware media kit, creator profile, platforms and collaboration details in the PDF.":"اطّلع على الملف الإعلامي الرسمي لـ A Hardware وتفاصيل المنصات والتعاون بصيغة PDF.",
+  "Media Kit PDF ↗":"ملف التعريف PDF ↗","Primary platform":"المنصة الأساسية","Video content":"محتوى الفيديو","Growing presence":"حضور متنامٍ",
+  "THE CREATOR":"صانع المحتوى","About Adam":"عن آدم",
+  "Technology with a creative angle.":"التكنولوجيا برؤية إبداعية.",
+  "I’m Adam Hassan, founder of A Hardware. I create technology and hardware content, sharing reviews, recommendations and ideas with a community that loves tech.":"أنا آدم حسن، مؤسس A Hardware. بصنع محتوى عن التكنولوجيا والهاردوير وبشارك المراجعات والترشيحات والأفكار مع مجتمع بيحب التقنية.",
+  "A tech-focused content brand built around hardware, products, practical advice and creative storytelling.":"علامة محتوى تقنية تهتم بالهاردوير والمنتجات والنصائح العملية والسرد الإبداعي.",
+  "Get in touch":"تواصل معي","CONTACT":"التواصل",
+  "Reach me directly on WhatsApp for business inquiries and collaborations.":"سيتم إضافة رقم واتساب المخصص للعمل هنا.",
+  "Message on WhatsApp ↗":"راسلني على واتساب ↗","Message me on WhatsApp ↗":"راسلني على واتساب ↗","Business Email":"البريد الإلكتروني للعمل",
+  "Reach me directly on WhatsApp for business inquiries and collaborations.":"تواصل معي مباشرة عبر واتساب لاستفسارات العمل والتعاون.",
+  "For business inquiries and collaborations.":"سيظهر بريدك الإلكتروني المخصص للعمل هنا.",
+  "Send an email ↗":"إرسال بريد إلكتروني ↗",
+  "Updates, announcements and community posts.":"التحديثات والإعلانات ومنشورات المجتمع.",
+   
+  "Professional inquiries & partnerships":"استفسارات العمل والتعاون",
+  "Creator profile, platforms & audience":"ملف صانع المحتوى والمنصات والجمهور",
+  "Made for":"صُنع لـ"
+};
+const attributeTranslations = {
+  "Back to top":"العودة إلى الأعلى",
+  "Toggle dark mode":"تبديل الوضع الداكن",
+  "Toggle theme":"تبديل المظهر",
+  "Switch language":"تغيير اللغة",
+  "Profile photo placeholder":"مكان الصورة الشخصية",
+  "Social media shortcuts":"اختصارات مواقع التواصل",
+  "Main navigation":"القائمة الرئيسية",
+  "Business resources":"روابط قسم الأعمال",
+  "YouTube":"يوتيوب",
+  "Instagram":"إنستجرام",
+  "TikTok":"تيك توك",
+  "Facebook":"فيسبوك"
+};
+let currentLang = 'en';
+const originalTextNodes = new WeakMap();
+const originalAttributes = new WeakMap();
+function setLanguage(lang){
+  if(lang === currentLang) return;
+  const page = document.querySelector('.page');
+  document.body.classList.add('language-transitioning');
+  window.setTimeout(()=>{
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        const parent = node.parentElement;
+        if(!parent || ['SCRIPT','STYLE'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    let node;
+    while(node = walker.nextNode()){
+      if(!originalTextNodes.has(node)) originalTextNodes.set(node,node.nodeValue);
+      const original = originalTextNodes.get(node);
+      const key = original.trim();
+      if(!key) continue;
+      const translated = translations[key];
+      const leading = original.match(/^\\s*/)?.[0] || '';
+      const trailing = original.match(/\\s*$/)?.[0] || '';
+      node.nodeValue = lang === 'ar' && translated ? leading + translated + trailing : original;
+    }
+    document.querySelectorAll('*').forEach(el=>{
+      ['aria-label','title','alt'].forEach(attr=>{
+        if(!el.hasAttribute(attr)) return;
+        let saved = originalAttributes.get(el);
+        if(!saved){ saved = {}; originalAttributes.set(el,saved); }
+        if(!(attr in saved)) saved[attr] = el.getAttribute(attr);
+        const originalValue = saved[attr];
+        el.setAttribute(attr, lang === 'ar'
+          ? (attributeTranslations[originalValue] || originalValue)
+          : originalValue);
+      });
+    });
+    document.title = lang === 'ar' ? 'آدم حسن | A Hardware' : 'Adam Hassan | A Hardware';
+    document.getElementById('langToggle').textContent = lang === 'en' ? 'عربي' : 'English';
+    document.body.classList.remove('language-transitioning');
+    document.querySelectorAll('.reveal-on-scroll').forEach(el=>revealObserver.observe(el));
+  },180);
+}
+document.getElementById('langToggle').addEventListener('click',()=>setLanguage(currentLang==='en'?'ar':'en'));
+document.getElementById('themeToggle').addEventListener('click',(event)=>{
+  const button = event.currentTarget;
+  const rect = button.getBoundingClientRect();
+  const x = rect.left + rect.width/2;
+  const y = rect.top + rect.height/2;
+  const willBeDark = !document.body.classList.contains('dark');
+  document.body.style.setProperty('--theme-x',x+'px');
+  document.body.style.setProperty('--theme-y',y+'px');
+  document.body.style.setProperty('--theme-flash',willBeDark?'#191815':'#fdfcf9');
+  document.body.classList.remove('theme-changing');
+  // Restart the reveal animation on every click.
+  void document.body.offsetWidth;
+  document.body.classList.toggle('dark',willBeDark);
+  document.body.classList.add('theme-changing');
+  const dark = document.body.classList.contains('dark');
+  button.textContent = dark ? '☀' : '☾';
+  button.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+  window.setTimeout(()=>document.body.classList.remove('theme-changing'),820);
+});
+
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach((entry)=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:.12,rootMargin:'0px 0px -35px 0px'});
+document.querySelectorAll('.feature,.section-head,.link-row,.business-card,.stats,.footer').forEach((el,i)=>{
+  el.classList.add('reveal-on-scroll');
+  el.style.transitionDelay = (i%5)*65+'ms';
+  revealObserver.observe(el);
+});
+</script>
+</body>
+</html>
