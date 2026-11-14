@@ -573,7 +573,7 @@ body.dark .youtube-dropdown.is-open{background:rgba(184,135,45,.07)}
     card.href = `https://www.youtube.com/watch?v=${encodeURIComponent(video.videoId)}`;
     card.setAttribute('aria-label', `Watch ${video.title} on YouTube`);
     title.textContent = video.title;
-    thumbnail.src = video.thumbnail || `https://i.ytimg.com/vi/${encodeURIComponent(video.videoId)}/hqdefault.jpg`;
+    thumbnail.src = video.thumbnail || `https://i.ytimg.com/vi/${encodeURIComponent(video.videoId)}/maxresdefault.jpg`;
     thumbnail.alt = `${video.title} — YouTube thumbnail`;
   } catch(error) {
     // Keep the existing featured-video content as a graceful fallback until the first sync succeeds.
