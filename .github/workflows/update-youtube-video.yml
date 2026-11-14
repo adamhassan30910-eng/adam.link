@@ -1,10 +1,70 @@
-name: Test Workflow
+name: Update Latest YouTube Video
 
-'on': [push, workflow_dispatch]
+'on':
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  test:
+  update-video:
     runs-on: ubuntu-latest
     steps:
-      - name: Hello
-        run: echo "It works!"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest video
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          channel = 'UCqtenxu6OfFK3LvNO0wm0yQ'
+          url = f'https://www.youtube.com/feeds/videos.xml?channel_id={channel}'
+          req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+
+          with urllib.request.urlopen(req, timeout=30) as r:
+              root = ET.fromstring(r.read())
+
+          ns = {
+              'a': 'http://www.w3.org/2005/Atom',
+              'yt': 'http://www.youtube.com/xml/schemas/2015'
+          }
+
+          entry = root.find('a:entry', ns)
+          if entry is None:
+              raise Exception('No public videos found')
+
+          video_id = entry.findtext('yt:videoId', namespaces=ns)
+          title = entry.findtext('a:title', namespaces=ns)
+          published = entry.findtext('a:published', namespaces=ns)
+
+          data = {
+              'channelId': channel,
+              'videoId': video_id,
+              'title': title,
+              'thumbnail': f'https://i.ytimg.com/vi/{video_id}/hqdefault.jpg',
+              'url': f'https://www.youtube.com/watch?v={video_id}',
+              'publishedAt': published
+          }
+
+          with open('latest-video.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+
+          print('Latest video:', title)
+          PY
+
+      - name: Save changes
+        run: |
+          if git diff --quiet -- latest-video.json; then
+            echo "No new video"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest-video.json
+          git commit -m "Update latest YouTube video"
+          git push
